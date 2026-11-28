@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPredict AI — Student Exam Performance Indicator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-light: #eef2ff;
+            --dark-navy: #0f172a;
+            --indigo-deep: #1e1b4b;
+            --bg-page: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .brand-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #4f46e5, #312e81);
+            color: #ffffff;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.75rem;
+        }
+
+        .nav-links a:not(.btn-nav) {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:not(.btn-nav):hover {
+            color: var(--primary);
+        }
+
+        .btn-nav {
+            text-decoration: none;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 0.55rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-nav:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: radial-gradient(circle at 80% 20%, #312e81 0%, #1e1b4b 45%, #0f172a 100%);
+            color: #ffffff;
+            padding: 5rem 1.5rem 5.5rem;
+            position: relative;
+        }
+
+        .hero-grid {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 0.35rem 0.9rem;
+            border-radius: 9999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #c7d2fe;
+            margin-bottom: 1.25rem;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #34d399;
+            box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.2);
+        }
+
+        .hero h1 {
+            font-size: 2.85rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #a5b4fc, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.075rem;
+            color: #cbd5e1;
+            max-width: 540px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn-primary-lg {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #4f46e5;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.95rem 1.75rem;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.5);
+        }
+
+        .btn-primary-lg:hover {
+            background: #6366f1;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary-lg {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.95rem 1.5rem;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary-lg:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Interactive Simulator Card in Hero */
+        .preview-card {
+            background: rgba(255, 255, 255, 0.97);
+            color: var(--text-main);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .preview-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #4f46e5;
+        }
+
+        .preview-badge {
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: #eef2ff;
+            color: #4338ca;
+            padding: 0.2rem 0.6rem;
+            border-radius: 9999px;
+        }
+
+        .sim-row {
+            margin-bottom: 1.1rem;
+        }
+
+        .sim-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 0.35rem;
+        }
+
+        .sim-row input[type="range"] {
+            width: 100%;
+            accent-color: #4f46e5;
+            cursor: pointer;
+        }
+
+        .sim-toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f8fafc;
+            padding: 0.65rem 0.85rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #334155;
+        }
+
+        .sim-output {
+            background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            border: 1px solid #c7d2fe;
+            border-radius: 12px;
+            padding: 1.1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sim-output-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #3730a3;
+        }
+
+        .sim-output-sub {
+            font-size: 0.78rem;
+            color: #4f46e5;
+        }
+
+        .sim-score {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #1e1b4b;
+        }
+
+        /* Features Section */
+        .section {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 4.5rem 1.5rem;
+        }
+
+        .section-head {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-head h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.6rem;
+        }
+
+        .section-head p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .cards-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.75rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.08);
+        }
+
+        .icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+        }
+
+        /* Workflow Strip */
+        .workflow-box {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .step-num {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 0.2rem 0.65rem;
+            border-radius: 9999px;
+            margin-bottom: 0.65rem;
+        }
+
+        .workflow-box h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .workflow-box p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Bottom CTA */
+        .cta-banner {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            border-radius: 18px;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .cta-banner h2 {
+            font-size: 1.85rem;
+            font-weight: 700;
+            margin-bottom: 0.65rem;
+        }
+
+        .cta-banner p {
+            color: #cbd5e1;
+            max-width: 520px;
+            margin: 0 auto 1.75rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 860px) {
+            .hero-grid, .cards-3, .workflow-box {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .nav-links a:not(.btn-nav) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-inner">
+            <a href="{{ url_for('index') }}" class="brand">
+                <span class="brand-icon">EP</span>
+                <span>EduPredict AI</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#features">Capabilities</a>
+                <a href="#workflow">How It Works</a>
+                <a href="{{ url_for('predict_datapoint') }}" class="btn-nav">Launch Predictor</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-grid">
+            <div>
+                <div class="pill">
+                    <span class="pulse-dot"></span>
+                    <span>ML Inference Engine Ready</span>
+                </div>
+                <h1>Predict Student <span>Mathematics Performance</span> with Precision</h1>
+                <p>
+                    An end-to-end machine learning web application that evaluates demographic factors,
+                    test preparation status, and literacy scores to forecast student math outcomes.
+                </p>
+                <div class="hero-actions">
+                    <a href="{{ url_for('predict_datapoint') }}" class="btn-primary-lg">
+                        Start Score Prediction &rarr;
+                    </a>
+                    <a href="#workflow" class="btn-secondary-lg">
+                        Explore Pipeline
+                    </a>
+                </div>
+            </div>
+
+            <!-- Interactive Live Sandbox Widget -->
+            <div class="preview-card">
+                <div class="preview-header">
+                    <span class="preview-title">Interactive Sandbox Preview</span>
+                    <span class="preview-badge">Live Demo</span>
+                </div>
+
+                <div class="sim-row">
+                    <div class="sim-label">
+                        <span>Reading Score</span>
+                        <span id="simReadVal">72 / 100</span>
+                    </div>
+                    <input type="range" id="simRead" min="0" max="100" value="72">
+                </div>
+
+                <div class="sim-row">
+                    <div class="sim-label">
+                        <span>Writing Score</span>
+                        <span id="simWriteVal">74 / 100</span>
+                    </div>
+                    <input type="range" id="simWrite" min="0" max="100" value="74">
+                </div>
+
+                <label class="sim-toggle-row" for="simPrep">
+                    <span>Completed Test Prep Course</span>
+                    <input type="checkbox" id="simPrep" checked>
+                </label>
+
+                <div class="sim-output">
+                    <div>
+                        <div class="sim-output-label">Estimated Maths Score</div>
+                        <div class="sim-output-sub">Open full form for exact model output</div>
+                    </div>
+                    <div class="sim-score" id="simEstimate">73.8</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="section-head">
+            <h2>Built for Academic Analytics</h2>
+            <p>Combining clean data preprocessing with trained regression models for fast, consistent evaluation.</p>
+        </div>
+
+        <div class="cards-3">
+            <div class="feature-card">
+                <div class="icon-box">01</div>
+                <h3>Multi-Factor Feature Pipeline</h3>
+                <p>Processes categorical demographics alongside reading and writing scores through standardized encoding and scaling.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-box">02</div>
+                <h3>Validated Form Ingestion</h3>
+                <p>Enforces strict range and category validation before inference so every prediction runs on clean, structured inputs.</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon-box">03</div>
+                <h3>Instant Grade Tiering</h3>
+                <p>Translates raw numerical predictions into clear performance benchmarks to help identify students who need support early.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow Section -->
+    <section class="section" id="workflow" style="padding-top: 0;">
+        <div class="workflow-box">
+            <div>
+                <span class="step-num">Step 1</span>
+                <h4>Input Student Profile</h4>
+                <p>Select background attributes, lunch type, test preparation status, and baseline exam scores.</p>
+            </div>
+            <div>
+                <span class="step-num">Step 2</span>
+                <h4>Transform &amp; Predict</h4>
+                <p>Flask routes the validated DataFrame through <code>preprocessor.pkl</code> and your trained <code>model.pkl</code>.</p>
+            </div>
+            <div>
+                <span class="step-num">Step 3</span>
+                <h4>Review Performance Score</h4>
+                <p>Receive an immediate predicted Mathematics score out of 100 with visual progress and grade tiering.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="section" style="padding-top: 0;">
+        <div class="cta-banner">
+            <h2>Ready to Run a Prediction?</h2>
+            <p>Launch the interactive prediction form to evaluate a student profile using your trained ML model.</p>
+            <a href="{{ url_for('predict_datapoint') }}" class="btn-primary-lg">
+                Open Prediction Form &rarr;
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        Student Exam Performance Indicator &bull; Powered by Flask &amp; Scikit-Learn
+    </footer>
+
+    <script>
+        // Lightweight client-side estimator for the hero sandbox widget
+        const readSlider = document.getElementById('simRead');
+        const writeSlider = document.getElementById('simWrite');
+        const prepCheck = document.getElementById('simPrep');
+        const readVal = document.getElementById('simReadVal');
+        const writeVal = document.getElementById('simWriteVal');
+        const estOutput = document.getElementById('simEstimate');
+
+        function updateSandbox() {
+            const r = Number(readSlider.value);
+            const w = Number(writeSlider.value);
+            const prepBonus = prepCheck.checked ? 2.5 : 0;
+
+            readVal.textContent = `${r} / 100`;
+            writeVal.textContent = `${w} / 100`;
+
+            const estimate = Math.min(100, Math.max(0, (r * 0.48) + (w * 0.48) + prepBonus));
+            estOutput.textContent = estimate.toFixed(1);
+        }
+
+        readSlider.addEventListener('input', updateSandbox);
+        writeSlider.addEventListener('input', updateSandbox);
+        prepCheck.addEventListener('change', updateSandbox);
+        updateSandbox();
+    </script>
+</body>
+</html>
